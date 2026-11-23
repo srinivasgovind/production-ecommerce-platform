@@ -1,0 +1,15 @@
+# Hooks that run automatically before every `git commit`.
+# Install once per clone with: pre-commit install
+repos:
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.1 # pinned version: same behavior on every machine
+    hooks:
+      - id: gitleaks # blocks the commit if staged changes contain a secret
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-added-large-files # stops accidental big files (datasets, binaries)
+      - id: detect-private-key # extra check for SSH/TLS private keys
+      - id: end-of-file-fixer # every file ends with a newline
+      - id: trailing-whitespace # removes spaces at line ends
