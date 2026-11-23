@@ -24,5 +24,7 @@ Python 3.12 · FastAPI · PostgreSQL · Redis · Docker · GitHub Actions · AWS
 ## Local setup
 ```bash
 cp .env.example .env   # then fill in local values
+uv tool install pre-commit
+pre-commit install     # runs secret scanning (gitleaks) before every commit
 ```
 More setup steps will be added as the application is built.
