@@ -1,0 +1,34 @@
+# ---- Secrets: never commit these ----
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.tfvars
+!example.tfvars
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+
+# ---- Tool caches ----
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# ---- Terraform (local state can contain secrets) ----
+.terraform/
+*.tfstate
+*.tfstate.*
+
+# ---- OS and editor files ----
+.DS_Store
+.idea/
+.vscode/
