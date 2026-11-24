@@ -1,0 +1,30 @@
+# CI: the same checks as pre-commit, on a clean machine, for every PR. Can't be skipped with --no-verify.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read # least privilege: CI only needs to read the code
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10 # a hung job fails fast instead of burning minutes
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # full history so gitleaks can scan every commit
+
+      - uses: astral-sh/setup-uv@v6 # installs uv; Python comes from .python-version
+
+      - name: Install exact dependencies
+        run: uv sync --locked # fails if uv.lock is out of date with pyproject.toml
+
+      - name: Lint, format, types, secrets
+        run: uv run pre-commit run --all-files --show-diff-on-failure
+
+      - name: Tests
+        run: uv run pytest

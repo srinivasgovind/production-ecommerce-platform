@@ -1,0 +1,54 @@
+[project]
+name = "store"
+version = "0.1.0"
+description = "Production-grade e-commerce backend, built from 10 products to 1M+ users."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.165.0",
+    "uvicorn[standard]>=0.54.0",
+]
+
+[build-system]
+# How to turn src/store/ into an installable package (uv installs it into .venv in editable mode)
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/store"]
+
+# ---------- ruff: linter + formatter ----------
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+    "E", "W",  # pycodestyle: basic style errors
+    "F",       # pyflakes: unused imports/variables, undefined names (real bugs)
+    "I",       # import sorting
+    "B",       # bugbear: common bug patterns (mutable default args, etc.)
+    "UP",      # pyupgrade: use modern Python 3.12 syntax
+    "SIM",     # simplify: needlessly complex code
+    "ASYNC",   # blocking calls inside async def (time.sleep, requests): errors doc topic 3
+]
+
+# ---------- mypy: type checker ----------
+[tool.mypy]
+python_version = "3.12"
+strict = true            # every function needs type hints; no silent Any
+warn_unreachable = true
+
+# ---------- pytest ----------
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers --import-mode=importlib"   # summary of skips/fails; typo'd markers are errors; no tests/__init__.py needed
+
+[dependency-groups]
+dev = [
+    "httpx2>=2.16.2",
+    "mypy>=2.4.1",
+    "pre-commit>=4.7.0",
+    "pytest>=9.2.0",
+    "ruff>=0.17.6",
+]

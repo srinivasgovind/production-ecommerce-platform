@@ -13,3 +13,24 @@ repos:
       - id: detect-private-key # extra check for SSH/TLS private keys
       - id: end-of-file-fixer # every file ends with a newline
       - id: trailing-whitespace # removes spaces at line ends
+
+  # Our own tools, run through uv so they use the SAME versions as uv.lock
+  # (and mypy can see fastapi etc. installed in .venv).
+  - repo: local
+    hooks:
+      - id: ruff-check
+        name: ruff check (lint)
+        entry: uv run ruff check --fix
+        language: system
+        types: [python]
+      - id: ruff-format
+        name: ruff format
+        entry: uv run ruff format
+        language: system
+        types: [python]
+      - id: mypy
+        name: mypy (types)
+        entry: uv run mypy src tests
+        language: system
+        types: [python]
+        pass_filenames: false # check the whole project, not just changed files
