@@ -15,6 +15,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     app = FastAPI(title="Store API", version="0.1.0")
     app.state.settings = settings  # one place to reach config at run time
+    app.state.readiness_checks = {}  # name → async check; step 3 adds "database"
     app.middleware("http")(request_context)  # wraps EVERY request
     app.include_router(health_router)
     return app
