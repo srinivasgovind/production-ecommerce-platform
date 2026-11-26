@@ -5,8 +5,11 @@ description = "Production-grade e-commerce backend, built from 10 products to 1M
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "alembic>=1.20.1",
+    "asyncpg>=0.32.0",
     "fastapi>=0.165.0",
     "pydantic-settings>=2.16.3",
+    "sqlalchemy[asyncio]>=2.1.9",
     "structlog>=26.1.0",
     "uvicorn[standard]>=0.54.0",
 ]
@@ -40,6 +43,7 @@ select = [
 python_version = "3.12"
 strict = true            # every function needs type hints; no silent Any
 warn_unreachable = true
+plugins = ["pydantic.mypy"]  # understands Pydantic: BaseSettings fields may come from env vars
 
 # ---------- pytest ----------
 [tool.pytest.ini_options]

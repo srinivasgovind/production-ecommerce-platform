@@ -13,6 +13,8 @@ jobs:
   checks:
     runs-on: ubuntu-latest
     timeout-minutes: 10 # a hung job fails fast instead of burning minutes
+    env:
+      DB_PASSWORD: ci-only-not-a-secret # required setting; CI has no .env (real DB comes in step 6)
     steps:
       - uses: actions/checkout@v4
         with:
